@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+    <!-- <link rel="stylesheet" href="Settings.css"> -->
+    <link rel="stylesheet" href="{% static 'css/Settings.css' %}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet' />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+</head>
+
+<body>
+
+    <div class="wrapper">
+
+        <div id="pages">
+
+            <div class="sidebar">
+                <nav>
+                    <div class="logo"> </div>
+                    <a class="design" href="{% url 'dashboard' %}"><i class="bx bxs-dashboard"></i>Home</a>
+
+                    <a class="design" href="{% url 'calendarShiftInput' %}"><i class="bx bx-calendar"></i>Calendar</a>
+
+                    <div class="dropdown">
+                        <a class="design" href="#"><i class="bx bxs-data"></i>Pool</a>
+                        <div class="dropdown-content">
+                            <a href="{% url 'MatchView' %}">Match</a>
+                            <a href="{% url 'PickupPoolView' %}">Pickup Request</a>
+                        </div>
+                    </div>
+
+                    <a class="design" href="{% url 'ShiftStatusView' %}"><i class="bx bx-loader"></i>Status</a>
+
+                    <a class="design" href="{% url 'Chatview' %}"><i class="bx bx-chat"></i>Chat</a>
+
+                    <a class="active" href="{% url 'SettingsView' %}"><i class="bx bx-cog"></i>Settings</a>
+                    <br>
+                    <br>
+                    <br>
+                    <a class="design" href="{% url 'userLogout' %}"><i class="bx bx-log-out"></i>Logout</a>
+                </nav>
+            </div>
+
+            <div class="right-column">
+
+                <div id="header">
+                    <h1>Settings</h1>
+                </div>
+
+                <div id="main-content">
+                    <div id="settings">
+                        <div id="profile">
+                            <div class="picture"></div>
+                            <button class="edit">Edit profile</button>
+                        </div>
+                        <div id="account">
+                            <h6>
+                                <i class="bx bxs-user"></i>
+                                Account:
+                            </h6>
+                            <p>First Name: {{firstName}} </p>
+                            <p>Last Name: {{lastName}} </p>
+                            <p>Email: {{email}} </p>
+                            <p>Password: </p>
+                        </div>
+                        <div id="notifications">
+                            <h6>
+                                <i class="bx bxs-bell"></i>
+                                Notifications:
+                            </h6>
+                            <p>Notifications: 
+                                <i class="bx bxs-toggle-left"></i>
+                            </p>
+                        </div>
+                        <form action="{% url 'SettingsView' %}" method="POST">
+                            {% csrf_token %}
+                            <div id="role">
+                                <h6>
+                                    <i class="bx bxs-briefcase"></i>
+                                    Qualifications:
+                                </h6>
+                                <p>
+                                    Job Roles:{{roles}} <select class="js-example-basic-multiple" id="locations"
+                                        name="locations[]" multiple="multiple">
+                                        {% for i in locations %}
+                                        <option name="role" value="{{i}}">{{i}}</option>
+                                        {% endfor %}
+                                </p>
+                            </div>
+                            <input type="submit" value="Save">
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <script>
+            $(document).ready(function () {
+                $('#locations').select2();
+            });
+
+           
+        </script>
+
+</body>
+
+</html>

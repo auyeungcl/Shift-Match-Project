@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <!-- <link rel="stylesheet" href="Dashboard.css"> -->
+    <link rel="stylesheet" href="{% static 'css/Dashboard.css' %}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet' />
+</head>
+
+<body>
+
+    <div class="wrapper">
+
+        <div id="pages">
+
+            <div class="sidebar">
+                <nav>
+                    <div class="logo"> </div>
+                    <a class="active" href="{% url 'dashboard' %}"><i class="bx bxs-dashboard"></i>Home</a>
+
+                    <a class="design" href="{% url 'calendarShiftInput' %}"><i class="bx bx-calendar"></i>Calendar</a>
+
+                    <div class="dropdown">
+                        <a class="design" href="#"><i class="bx bxs-data"></i>Pool</a>
+                        <div class="dropdown-content">
+                            <a href="{% url 'MatchView' %}">Match</a>
+                            <a href="{% url 'PickupPoolView' %}">Pickup Request</a>
+                        </div>
+                    </div>
+
+                    <a class="design" href="{% url 'ShiftStatusView' %}"><i class="bx bx-loader"></i>Status</a>
+
+                    <a class="design" href="{% url 'Chatview' %}"><i class="bx bx-chat"></i>Chat</a>
+
+                    <a class="design" href="{% url 'SettingsView' %}"><i class="bx bx-cog"></i>Settings</a>
+                    <br>
+                    <br>
+                    <br>
+                    <a class="design" href="{% url 'userLogout' %}"><i class="bx bx-log-out"></i>Logout</a>
+                </nav>
+            </div>
+
+            <div class="left-column">
+                <div id="header">
+                    <img src="logo-transparent.png" alt="picture">
+                    <div class="title">
+                        WELCOME BACK,
+                        <br>
+                        <h1> {{name}} </h1>
+                    </div>
+                    <i class="bx bxs-bell"></i>
+                </div>
+
+                <div id="shift-view">
+                    <div id="calendar"></div>
+                </div>
+
+                <div id="shift-status">
+                    <div class="title">SHIFT STATUS</div>
+                    <div id="status-wrapper">
+                        <div id="status">
+                            <div class="title">Shift 1</div>
+                            <p class="name">Name</p>
+                            <p>Pending</p>
+                            <p>Time Left:</p>
+                        </div>
+                        <div id="status">
+                            <div class="title">Shift 2</div>
+                            <p class="name">Name</p>
+                            <p>Pending</p>
+                            <p>Time Left:</p>
+                        </div>
+                        <div id="status">
+                            <div class="title">Shift 3</div>
+                            <p class="name">Name</p>
+                            <p>Pending</p>
+                            <p>Time Left:</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-column">
+                <div id="shift-pool">
+                    <div class="title">SHIFT POOL</div>
+                    <div id="filter">
+                        <p>Filter goes here</p>
+                    </div>
+                    {% for shift in shiftsInPool %}
+                    <div id="pool-details">
+                        <div id="picture">
+                            <img src=" " alt="picture">
+                        </div>
+                        <div class="container">
+                            <div id="users-name">
+                                <p class="name">{{shift.username.firstName}} </p>
+                            </div>
+                            <div id="shift">
+                                <a>Date:
+                                    <p>{{shift.shiftStart.date}} </p>
+                                </a>
+                                <a>Time:
+                                    <p>{{shift.shiftStart.time}} </p>
+                                </a>
+                                <a>Type:
+                                    <p>Request: Trade or Pick-up</p>
+                                </a>
+                            </div>
+                        </div>
+                        <i class="bx bxs-info-circle"></i>
+                    </div>
+                    {% endfor %}
+
+                </div>
+
+                <div id="contacts">
+                    <div class="title">RECENTS</div>
+                    <div id="contact">
+                        <div id="user">
+                            <img src=" " alt="picture">
+                            <p>Name</p>
+                        </div>
+                        <div id="user">
+                            <img src=" " alt="picture">
+                            <p>Name</p>
+                        </div>
+                        <div id="user">
+                            <img src=" " alt="picture">
+                            <p>Name</p>
+                        </div>
+                        <div id="user">
+                            <img src=" " alt="picture">
+                            <p>Name</p>
+                        </div>
+                        <div id="user">
+                            <img src=" " alt="picture">
+                            <p>Name</p>
+                        </div>
+                        <div id="user">
+                            <img src=" " alt="picture">
+                            <p>Name</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarE1 = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarE1, {
+                initialView: 'listWeek',
+                timezone: 'UTC',
+                selectable: true,
+                contentHeight: 250,
+                events: {{ upcomingShifts| safe }},
+            timeFormat: 'h:mm:ss ZZ',
+            });
+        calendar.render();
+        })
+
+    </script>
+
+</body>
+
+</html>
